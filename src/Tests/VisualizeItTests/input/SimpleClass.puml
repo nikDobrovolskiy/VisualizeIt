@@ -1,0 +1,8 @@
+@startuml Test
+class SimpleClass
+{
+    string Name
+    int Count
+    double Cost
+}
+@enduml
