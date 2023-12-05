@@ -1,4 +1,4 @@
-public class SimpleClass
+public class ClassWithField
 {
     string Name;
     int Count;
