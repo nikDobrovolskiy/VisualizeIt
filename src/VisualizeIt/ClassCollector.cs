@@ -12,16 +12,42 @@ namespace VisualizeIt
     {
         List<RootNode> trees = new List<RootNode>();
         public List<RootNode> SourceTree { get => trees; }
+        public StringBuilder sb = new StringBuilder();
+        public List<TypeFrame> ClassFrames { get; set; } = new List<TypeFrame>();
+        public string GetResult()
+        {
+            return ClassFrames.Select(f =>
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(f.Header.Aggregate((a, b) => a + " " + b));
+                sb.AppendLine("{");
+                if (f.Body.Any())
+                {
+                    // fill the body
+                }
+                sb.AppendLine("}");
+                return sb.ToString();
+            }).Aggregate((a, b) => a + b);
+        }
+
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            var tree = new RootNode()
+            TypeFrame frame = new();
+
+            string modifiersStr = node.Modifiers.Select(m => m.ToString()).Aggregate((a, b) => (a + b));
+            frame.Header.Add(modifiersStr);
+            frame.Header.Add(node.Keyword.ToString());
+            frame.Header.Add(node.Identifier.ToString());
+            if (node.ChildNodes().Any())
             {
-                Name = node.Identifier.ValueText,
-                Modifier = node.Modifiers.First().ValueText,
-            };
-            trees.Add(tree);
-            base.VisitClassDeclaration(node);
+                // Childs
+                // frame.Body.Add("");
+                base.VisitClassDeclaration(node);
+            }
+
+            ClassFrames.Add(frame);
         }
+
         public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
         {
             //node.Declaration
@@ -36,6 +62,12 @@ namespace VisualizeIt
 
             base.VisitFieldDeclaration(node);
         }
+    }
+
+    public class TypeFrame
+    {
+        public List<string> Header { get; set; } = new List<string>();
+        public List<string> Body { get; set; } = new List<string>();
     }
 
     public class Node

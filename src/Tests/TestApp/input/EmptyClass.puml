@@ -1,0 +1,5 @@
+@startuml Test
+class EmptyClass
+{
+}
+@enduml

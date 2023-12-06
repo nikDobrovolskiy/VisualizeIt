@@ -28,15 +28,15 @@
 	
 	
 	<ItemGroup>
+		<Compile Remove="input\ClassWithField.cs" />
 		<Compile Remove="input\EmptyClass.cs" />
-		<Compile Remove="input\SimpleClass.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="input\EmptyClass.cs">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="input\SimpleClass.cs">
+		<None Include="input\ClassWithField.cs">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
@@ -44,7 +44,7 @@
     <None Update="input\EmptyClass.puml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="input\SimpleClass.puml">
+    <None Update="input\ClassWithField.puml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

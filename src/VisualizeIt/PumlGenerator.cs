@@ -17,7 +17,9 @@ namespace VisualizeIt
             ClassCollector collector = new ClassCollector();
             SyntaxNode node = SyntaxFactory.ParseCompilationUnit(input);
             collector.Visit(node);
-            
+
+            var str = collector.GetResult();
+            System.Console.WriteLine(str);
 
             SourceTreeConverter converter = new SourceTreeConverter();
             var pumlstr = converter.ConvertToPuml(collector.SourceTree);
