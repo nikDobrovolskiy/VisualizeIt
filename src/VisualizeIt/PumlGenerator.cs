@@ -14,16 +14,13 @@ namespace VisualizeIt
     {
         public string Generate(string input)
         {
-            ClassCollector collector = new ClassCollector();
+            ClassCollector collector = new ClassCollector(new PumlTranslation());
+            SourceTreeConverter converter = new SourceTreeConverter();
+
             SyntaxNode node = SyntaxFactory.ParseCompilationUnit(input);
             collector.Visit(node);
-
-            var str = collector.GetResult();
-            System.Console.WriteLine(str);
-
-            SourceTreeConverter converter = new SourceTreeConverter();
-            var pumlstr = converter.ConvertToPuml(collector.SourceTree);
-
+            var classes = collector.GetClasses();
+            var pumlstr = converter.ConvertToPuml(classes);
             return pumlstr;
         }
     }

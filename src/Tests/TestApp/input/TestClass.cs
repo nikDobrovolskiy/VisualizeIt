@@ -1,12 +1,17 @@
-internal class EmptyClass
+public class ClassWithField
 {
+    string Name;
+    int Count;
+    double Cost;
 }
-internal class EmptyClass2
+
+public partial class ClassWithField2
 {
-}
-internal class EmptyClass
-{
-}
-internal class EmptyClass2
-{
+    private readonly string Name;
+    private static int Number;
+    private const string Family;
+    public int Home;
+    internal double SomeDouble;
+    int Count;
+    double Cost;
 }

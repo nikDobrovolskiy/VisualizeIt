@@ -27,9 +27,7 @@
     <None Include="input\ClassWithField.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="input\MultipleClasses.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="input\MultipleClasses.cs" />
     <None Include="input\TestClass.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

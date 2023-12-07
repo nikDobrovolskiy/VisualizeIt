@@ -3,6 +3,9 @@ using Microsoft.CodeAnalysis;
 using System.IO;
 using VisualizeIt;
 using System.Runtime.Intrinsics.Arm;
+using System.Diagnostics;
+using System.Linq;
+using System;
 
 namespace TestApp
 {
@@ -10,11 +13,15 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            string input = Path.Combine("input", "TestClass.cs");
-            var inputStr = File.ReadAllText(input);         
-            PumlGenerator gen = new PumlGenerator();
-            var resultStr = gen.Generate(inputStr);
+            IResultWriter resultWriter = new FileWriter();
+            IInputReader inputReader = new FileInputReader();
+            PumlGenerator generator = new PumlGenerator();
 
+            var inputStr = inputReader.Read();
+            var resultStr = generator.Generate(inputStr);
+            resultWriter.Write(resultStr);
+
+            System.Console.Write(resultStr);
         }
     }
 }

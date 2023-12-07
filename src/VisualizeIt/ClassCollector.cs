@@ -10,64 +10,75 @@ namespace VisualizeIt
 {
     public class ClassCollector : CSharpSyntaxWalker
     {
-        List<RootNode> trees = new List<RootNode>();
-        public List<RootNode> SourceTree { get => trees; }
-        public StringBuilder sb = new StringBuilder();
-        public List<TypeFrame> ClassFrames { get; set; } = new List<TypeFrame>();
-        public string GetResult()
+        private readonly PumlTranslation pumlTranslation;
+
+        public ClassCollector(PumlTranslation pumlTranslation)
         {
-            return ClassFrames.Select(f =>
+            this.pumlTranslation = pumlTranslation;
+        }
+
+        public List<TypeFrame> Frames { get; set; } = new();
+        public List<TypeNode> TypeNodes { get; set; } = new();
+
+        public List<string> GetClasses()
+        {
+            var classes = TypeNodes.Where(t => t.Type == NodeType.Class);
+            return classes.Select(f =>
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine(f.Header.Aggregate((a, b) => a + " " + b));
+                sb.AppendLine(f.Declaration[0] + f.Declaration.Skip(1).Aggregate((a, b) => a + " " + b));
+                
+                var body = TypeNodes.Where(n => n.Parent is not null && n.Parent.Equals(f.Name))
+                    .Select(f =>
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine(AddIndent() + f.Declaration[0] + f.Declaration.Skip(1).Aggregate((a, b) => a + " " + b));
+                        return sb.ToString();
+                    })
+                    .Aggregate((a, b) => a + b);
+
                 sb.AppendLine("{");
-                if (f.Body.Any())
-                {
-                    // fill the body
-                }
-                sb.AppendLine("}");
+                sb.Append(body);
+                sb.Append("}");
                 return sb.ToString();
-            }).Aggregate((a, b) => a + b);
+            }).ToList();
+        }
+
+        private string AddIndent()
+        {
+            return "  ";
         }
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            TypeFrame frame = new();
+            TypeNode typeNode = new();
+            typeNode.Name = node.Identifier.ToString();
+            typeNode.Type = NodeType.Class;
+            var modifiersStr = string.Join(" ", node.Modifiers.Select(m => pumlTranslation.Modifier(m.ToString())).OfType<string>());
+            typeNode.Declaration.Add(modifiersStr);
+            typeNode.Declaration.Add(node.Keyword.ToString());
+            typeNode.Declaration.Add(node.Identifier.ToString());
+            TypeNodes.Add(typeNode);
 
-            string modifiersStr = node.Modifiers.Select(m => m.ToString()).Aggregate((a, b) => (a + b));
-            frame.Header.Add(modifiersStr);
-            frame.Header.Add(node.Keyword.ToString());
-            frame.Header.Add(node.Identifier.ToString());
-            if (node.ChildNodes().Any())
-            {
-                // Childs
-                // frame.Body.Add("");
-                base.VisitClassDeclaration(node);
-            }
-
-            ClassFrames.Add(frame);
+            base.VisitClassDeclaration(node);
         }
 
         public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
         {
-            //node.Declaration
-            //    //.OfType<VariableDeclarationSyntax>()
-            //    //.Where(e => e.Kind() == SyntaxKind.VariableDeclaration)
-            //    .Select(e => new Node()
-            //{
-            //    Name = 
-            //    Modifier = e
-            //    };
-            //trees.Add(tree);
+            var typenode = new TypeNode();
+            typenode.Type = NodeType.Field;
+            var parentNode = (node.Parent as ClassDeclarationSyntax);
+            typenode.Parent = parentNode?.Identifier.ToString();
+            var modifiersStr = string.Join(" ", node.Modifiers.Select(m => pumlTranslation.Modifier(m.ToString())).OfType<string>());
+            typenode.Declaration.Add(modifiersStr);
+            var type = node.Declaration.Type as PredefinedTypeSyntax;
+            typenode.Declaration.Add(type.Keyword.ToString());
+            var variable = node.Declaration.Variables.First();
+            typenode.Declaration.Add(variable.Identifier.ToString());
+            TypeNodes.Add(typenode);
 
             base.VisitFieldDeclaration(node);
         }
-    }
-
-    public class TypeFrame
-    {
-        public List<string> Header { get; set; } = new List<string>();
-        public List<string> Body { get; set; } = new List<string>();
     }
 
     public class Node

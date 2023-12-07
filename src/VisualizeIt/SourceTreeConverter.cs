@@ -27,5 +27,16 @@ namespace VisualizeIt
             sb.Append("@enduml");
             return sb.ToString();
         }
+
+        internal string ConvertToPuml(List<string> classes)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"@startuml Test");
+
+            sb.AppendLine(classes.Aggregate((a, b) => a + "\r\n" + b));
+
+            sb.Append("@enduml");
+            return sb.ToString();
+        }
     }
 }
