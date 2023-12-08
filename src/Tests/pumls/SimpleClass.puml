@@ -1,0 +1,8 @@
+@startuml SimpleClass
+class NameClass
+{
+    string Name
+    int Count
+    double Cost
+}
+@enduml

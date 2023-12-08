@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\VisualizeIt\VisualizeIt.csproj" />
+	</ItemGroup>
+	
+	
+	
+  <ItemGroup>
+    <Compile Remove="input\ClassWithField.cs" />
+    <Compile Remove="input\EmptyClass.cs" />
+    <Compile Remove="input\MultipleClasses.cs" />
+    <Compile Remove="input\SimpleClass.cs" />
+    <Compile Remove="input\TestClass.cs" />
+    <Compile Remove="SimpleClass.cs" />
+  </ItemGroup>
+	
+	
+	
+  <ItemGroup>
+    <None Include="input\ClassWithField.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="input\MultipleClasses.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="input\TestClass.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="input\EmptyClass.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="input\SimpleClass.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+	
+	
+	
+  <ItemGroup>
+    <None Update="input\ClassWithField.puml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="input\EmptyClass.puml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="input\SimpleClass.puml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

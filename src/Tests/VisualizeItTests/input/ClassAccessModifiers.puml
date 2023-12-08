@@ -1,0 +1,29 @@
+@startuml
++class EmptyClass
+{
+}
+#class EmptyClass2
+{
+}
+~class EmptyClass3
+{
+}
+-class EmptyClass4
+{
+}
+class EmptyClass5
+{
+}
+class EmptyClass6
+{
+}
++class EmptyClass7
+{
+}
+~class EmptyClass8
+{
+}
+~class EmptyClass9
+{
+}
+@enduml

@@ -1,0 +1,18 @@
+@startuml
++class ClassWithField
+{
+  string Name
+  int Count
+  double Cost
+}
++class ClassWithField2
+{
+  -string Name
+  -int Number
+  -string Family
+  +int Home
+  ~double SomeDouble
+  int Count
+  double Cost
+}
+@enduml
