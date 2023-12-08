@@ -14,6 +14,11 @@ namespace VisualizeIt
     {
         public string Generate(string input)
         {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+
             ClassCollector collector = new ClassCollector(new PumlTranslation());
             SourceTreeConverter converter = new SourceTreeConverter();
 

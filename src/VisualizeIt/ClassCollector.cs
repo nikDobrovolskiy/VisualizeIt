@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace VisualizeIt
 {
@@ -28,14 +29,15 @@ namespace VisualizeIt
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(f.Declaration[0] + f.Declaration.Skip(1).Aggregate((a, b) => a + " " + b));
                 
-                var body = TypeNodes.Where(n => n.Parent is not null && n.Parent.Equals(f.Name))
+                var types = TypeNodes
+                    .Where(n => n.Parent is not null && n.Parent.Equals(f.Name))
                     .Select(f =>
                     {
                         StringBuilder sb = new StringBuilder();
                         sb.AppendLine(AddIndent() + f.Declaration[0] + f.Declaration.Skip(1).Aggregate((a, b) => a + " " + b));
                         return sb.ToString();
-                    })
-                    .Aggregate((a, b) => a + b);
+                    });
+                string body = string.Join("", types);
 
                 sb.AppendLine("{");
                 sb.Append(body);
@@ -71,13 +73,30 @@ namespace VisualizeIt
             typenode.Parent = parentNode?.Identifier.ToString();
             var modifiersStr = string.Join(" ", node.Modifiers.Select(m => pumlTranslation.Modifier(m.ToString())).OfType<string>());
             typenode.Declaration.Add(modifiersStr);
-            var type = node.Declaration.Type as PredefinedTypeSyntax;
-            typenode.Declaration.Add(type.Keyword.ToString());
+            string keyword = GetKeyword(node.Declaration.Type);
+            typenode.Declaration.Add(keyword);
             var variable = node.Declaration.Variables.First();
             typenode.Declaration.Add(variable.Identifier.ToString());
             TypeNodes.Add(typenode);
 
             base.VisitFieldDeclaration(node);
+        }
+
+        private string GetKeyword(TypeSyntax type)
+        {
+            if (type is PredefinedTypeSyntax pt)
+            {
+                return pt.Keyword.ToString();
+            }
+            else if (type is IdentifierNameSyntax it)
+            {
+                return it.Identifier.ToString();
+            }
+            else if (type is QualifiedNameSyntax qt)
+            {
+                return qt.Left.ToString() + "." + qt.Right.ToString();
+            }
+            return string.Empty;
         }
     }
 

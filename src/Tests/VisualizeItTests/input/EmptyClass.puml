@@ -1,4 +1,4 @@
-@startuml Test
+@startuml
 class EmptyClass
 {
 }

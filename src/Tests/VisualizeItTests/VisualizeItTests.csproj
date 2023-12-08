@@ -28,23 +28,44 @@
 	
 	
 	<ItemGroup>
+		<Compile Remove="input\ClassAccessModifiers.cs" />
 		<Compile Remove="input\ClassWithField.cs" />
 		<Compile Remove="input\EmptyClass.cs" />
+		<Compile Remove="input\FieldTypeKeywords.cs" />
+		<Compile Remove="input\SimpleClass.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="input\FieldTypeKeywords.cs">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Include="input\EmptyClass.cs">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Include="input\ClassWithField.cs">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Include="input\ClassAccessModifiers.cs">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="input\SimpleClass.cs">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
   <ItemGroup>
+    <None Update="input\ClassAccessModifiers.puml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="input\FieldTypeKeywords.puml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="input\EmptyClass.puml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="input\ClassWithField.puml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="input\SimpleClass.puml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

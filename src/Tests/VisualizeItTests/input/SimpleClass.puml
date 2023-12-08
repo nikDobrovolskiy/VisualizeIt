@@ -1,0 +1,12 @@
+@startuml
++class SomeClass
+{
+  string Name
+  int Count
+  double Cost
+}
+~class EmptyClass
+{
+  double Cost
+}
+@enduml

@@ -31,7 +31,7 @@ namespace VisualizeIt
         internal string ConvertToPuml(List<string> classes)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"@startuml Test");
+            sb.AppendLine($"@startuml");
 
             sb.AppendLine(classes.Aggregate((a, b) => a + "\r\n" + b));
 
